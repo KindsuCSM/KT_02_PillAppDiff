@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -8,96 +8,111 @@
     tools:context=".MainActivity"
     android:orientation="vertical"
     android:background="@color/backgroundColor"
-    android:paddingVertical="20dp"
-    android:paddingHorizontal="20sp">
+    android:gravity="center">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/crdNombre"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_width="380dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="0.3"
         app:cardBackgroundColor="@color/cardColors"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:cardCornerRadius="24dp"
-        android:layout_marginBottom="20dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center">
+        app:cardCornerRadius="16dp">
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/titulo"
                 android:textStyle="bold"
-                android:textSize="24sp"
-                android:textColor="@color/txtColor" />
-        </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/crdCalendario"
-        android:layout_width="0dp"
-        android:layout_height="260dp"
-        android:layout_marginTop="20dp"
-        app:cardBackgroundColor="@color/cardColors"
-        app:cardCornerRadius="24dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/crdNombre">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_marginVertical="10dp"
-            android:layout_marginHorizontal="10dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""/>
-            />
-        </LinearLayout>
-
+                android:textColor="@color/txtColor"
+                android:textSize="20sp"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:layout_width="0dp"
+        android:layout_width="380dp"
         android:layout_height="0dp"
-        android:layout_marginTop="20sp"
-        app:cardCornerRadius="24dp"
-        app:cardBackgroundColor="@color/cardColors"
-        app:layout_constraintTop_toBottomOf="@id/crdCalendario"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="3.2"
+        app:cardBackgroundColor="@color/txtColor"
+        app:cardCornerRadius="16dp">
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center">
+            <CalendarView
+                android:id="@+id/cvCalendar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="false"
+                android:focusable="false"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.cardview.widget.CardView>
 
-        <LinearLayout
+    <androidx.cardview.widget.CardView
+        android:layout_width="380dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="0.75"
+        app:cardBackgroundColor="@color/cardColors"
+        app:cardCornerRadius="16dp">
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:layout_marginVertical="10dp">
-            <androidx.cardview.widget.CardView
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tvFecha"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="24dp">
-                <CalendarView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                tools:text="@string/fecha"
+                android:textColor="@color/txtColor"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/tvHora"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hora"
+                android:textColor="@color/txtColor"
+                android:textSize="40sp"
+                android:textStyle="bold" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.cardview.widget.CardView>
 
-                </CalendarView>
-            </androidx.cardview.widget.CardView>
-
-        </LinearLayout>
-
+    <androidx.cardview.widget.CardView
+        android:id="@+id/crdCheckBox"
+        android:layout_width="380dp"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        app:cardBackgroundColor="@color/cardColors"
+        app:cardCornerRadius="16dp">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:id="@+id/layoutCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="30dp"
+                android:paddingVertical="20dp">
+            </LinearLayout>
+        </ScrollView>
 
     </androidx.cardview.widget.CardView>
 
-
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/btnAniadirPastilla"
+        android:layout_width="380dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:backgroundTint="@color/btnColor"
+        android:text="@string/btnText"
+        android:textColor="@color/cardColors"
+        android:textStyle="bold">
+    </Button>
+</androidx.appcompat.widget.LinearLayoutCompat>

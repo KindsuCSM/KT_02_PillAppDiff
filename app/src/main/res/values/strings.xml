@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">My Application</string>
-    <string name="titulo">Gestión pastillas</string>
+    <string name="titulo">PillApp</string>
+    <string name="fecha">12/12/2024</string>
+    <string name="hora">18:30</string>
+    <string name="btnText">Añadir pastilla</string>
 </resources>
