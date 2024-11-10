@@ -3,5 +3,13 @@
     <string name="titulo">PillApp</string>
     <string name="fecha">12/12/2024</string>
     <string name="hora">18:30</string>
-    <string name="btnText">Añadir pastilla</string>
+    <string name="btnAniadirPasti">Añadir pastilla</string>
+    <string name="txtElegirFecha">Introduce la fecha: </string>
+    <string name="hintFecha">Introducir la fecha.</string>
+    <string name="txtElegirHora">Introduce la hora: </string>
+    <string name="hintHora">Introducir la hora.</string>
+    <string name="txtElegirNombre">Introduce el nombre: </string>
+    <string name="hintNombre">Nombre de la pastilla.</string>
+    <string name="btnAceptar">Aceptar</string>
+    <string name="btnCancelar">Cancelar</string>
 </resources>

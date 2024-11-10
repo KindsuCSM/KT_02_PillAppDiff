@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".IntroducirPasti"
+    android:background="@drawable/purple_marmol"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/lnDer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".96" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/lnIzq"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".04" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/lnTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent=".15" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/crdFecha"
+        android:layout_width="380dp"
+        android:layout_height="0dp"
+        app:cardCornerRadius="16dp"
+        android:layout_marginBottom = "10dp"
+        app:cardBackgroundColor="@color/cardColors"
+        app:layout_constraintTop_toTopOf="@id/lnTop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/crdHora">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/txtElegirFecha"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textColor="@color/txtColorOscuro"
+                android:layout_marginBottom="20dp"
+                android:fontFamily="@font/font_sour_gummy"/>
+            <EditText
+                android:id="@+id/etFecha"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="@string/hintFecha"
+                android:fontFamily="@font/font_sour_gummy"
+                android:layout_marginHorizontal="20dp"
+                android:textColor="@color/txtColorOscuro"
+                android:clickable="false"
+                android:focusable="false"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/crdHora"
+        android:layout_width="380dp"
+        android:layout_height="0dp"
+        app:cardCornerRadius="16dp"
+        android:layout_marginBottom = "10dp"
+        app:cardBackgroundColor="@color/cardColors"
+        app:layout_constraintBottom_toTopOf="@id/crdNombre"
+        app:layout_constraintTop_toBottomOf="@id/crdFecha"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/txtElegirHora"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textColor="@color/txtColorOscuro"
+                android:fontFamily="@font/font_sour_gummy"
+                android:layout_marginBottom="20dp"/>
+            <EditText
+                android:id="@+id/etHora"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="@string/hintHora"
+                android:fontFamily="@font/font_sour_gummy"
+                android:layout_marginHorizontal="20dp"
+                android:textColor="@color/txtColorOscuro"
+                android:clickable="false"
+                android:focusable="false"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/crdNombre"
+        android:layout_width="380dp"
+        android:layout_height="0dp"
+        app:cardCornerRadius="16dp"
+        app:cardBackgroundColor="@color/cardColors"
+        app:layout_constraintBottom_toTopOf="@id/lnBot"
+        app:layout_constraintTop_toBottomOf="@id/crdHora"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/txtElegirNombre"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textColor="@color/txtColorOscuro"
+                android:fontFamily="@font/font_sour_gummy"
+                android:layout_marginBottom="20dp"/>
+            <EditText
+                android:id="@+id/etNombre"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="@string/hintNombre"
+                android:fontFamily="@font/font_sour_gummy"
+                android:layout_marginHorizontal="20dp"
+                android:textColor="@color/txtColorOscuro"
+                android:clickable="false"
+                android:focusable="false"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/lnBot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent=".80"/>
+    
+    <Button
+        android:id="@+id/btnAceptar"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintStart_toStartOf="@id/lnIzq"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btnCancelar"
+        android:backgroundTint="@color/btnColor"
+        android:text="@string/btnAceptar"
+        android:fontFamily="@font/font_sour_gummy"
+        android:textColor="@color/txtColorClaro"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
+    <Button
+        android:id="@+id/btnCancelar"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnAceptar"
+        app:layout_constraintEnd_toEndOf="@id/lnDer"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="@color/btnColor"
+        android:text="@string/btnCancelar"
+        android:fontFamily="@font/font_sour_gummy"
+        android:textStyle="bold"
+        android:textColor="@color/txtColorClaro"
+        android:textSize="20sp"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

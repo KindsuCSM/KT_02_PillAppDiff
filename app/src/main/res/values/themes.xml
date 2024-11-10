@@ -4,6 +4,9 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
+    <style name="DatePickerTheme" parent="android:Theme.Material.Light.Dialog">
+        <item name="android:colorAccent">#B19BD9</item>
+    </style>
 
     <style name="Theme.MyApplication" parent="Base.Theme.MyApplication" />
 </resources>

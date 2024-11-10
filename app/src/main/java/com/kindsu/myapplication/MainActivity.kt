@@ -1,5 +1,6 @@
 package com.kindsu.myapplication
 
+import android.content.Intent
 import android.graphics.Paint
 import android.graphics.Typeface
 import android.icu.util.Calendar
@@ -8,6 +9,7 @@ import android.widget.CheckBox
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.kindsu.myapplication.databinding.ActivityMainBinding
@@ -41,6 +43,7 @@ class MainActivity : AppCompatActivity() {
             "11/11/2024" to "16:50",
         )
         showCurrentDate() // Mostrar la fecha actual y las pastillas al inicio
+        initListeners()
     }
 
     //Recibo un parametro tipo calendario y lo convierto a string recogiendo sus valores dia, mes y año
@@ -58,7 +61,7 @@ class MainActivity : AppCompatActivity() {
 
         addCheckBox(currentDate)                                                    // Mostrar la lista de pastillas para la fecha actual
         binding.tvFecha.text = currentDate                                          // Mostrar la fecha actual
-        binding.cvCalendar.setOnDateChangeListener{ _, year, month, dayOfMonth ->  // Configurar el listener para cuando el usuario seleccione una fecha
+        binding.cvCalendar.setOnDateChangeListener{ _, year, month, dayOfMonth ->   // Configurar el listener para cuando el usuario seleccione una fecha
             val selectedDate = Calendar.getInstance().apply {                       // Recogemos la fecha que indica el usuario
                 set(year, month, dayOfMonth) }
             val formattedDate = formatDate(selectedDate)                            //Formatear la fecha que hemos recogido de Calendar a string
@@ -68,11 +71,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun addCheckBox(date: String) {
-        val txtColor = ContextCompat.getColor(this, R.color.txtColor)       //Recogemos el color del xml colors y se lo damos a una variable para darselo al checkbox
-        val pastis = lstPastillas[date] ?: listOf("No tienes que tomar pastillas")  //la clave fecha no existe en el diccionario, mostraremos un checkbox con el texto
+        val txtColor = ContextCompat.getColor(this, R.color.txtColorOscuro)         //Recogemos el color de la letra en una variable
+        val fondoTxt = ResourcesCompat.getFont(this, R.font.font_sour_gummy)        //Recogemos el estilo de la letra en una variable
+        val pastis = lstPastillas[date] ?: listOf("No tienes que tomar pastillas")          //la clave fecha no existe en el diccionario, mostraremos un checkbox con el texto
 
-
-        binding.layoutCheckBox.removeAllViews()                                     // Limpiar cualquier CheckBox previo en el contenedor
+        binding.layoutCheckBox.removeAllViews()                                             // Limpiar cualquier CheckBox previo en el contenedor
 
         // Añadir los CheckBox al layout
         for (pasti in pastis) {
@@ -80,7 +83,7 @@ class MainActivity : AppCompatActivity() {
             checkbox.text = pasti
             checkbox.textSize = 16f
             checkbox.setTextColor(txtColor)
-            checkbox.setTypeface(null, Typeface.BOLD)
+            checkbox.setTypeface(fondoTxt, Typeface.BOLD)
             checkbox.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 checkbox. paintFlags =  Paint.STRIKE_THRU_TEXT_FLAG
@@ -89,6 +92,17 @@ class MainActivity : AppCompatActivity() {
             }
         }
             binding.layoutCheckBox.addView(checkbox)
+        }
+    }
+
+    private fun navigateToIntroducirPasti(){
+        val intent = Intent(this, IntroducirPasti::class.java)
+        startActivity(intent)
+    }
+
+    private fun initListeners(){
+        binding.btnAniadirPastilla.setOnClickListener(){
+            navigateToIntroducirPasti()
         }
     }
 }
