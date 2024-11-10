@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">PillApp</string>
     <string name="titulo">PillApp</string>
     <string name="fecha">12/12/2024</string>
     <string name="hora">18:30</string>

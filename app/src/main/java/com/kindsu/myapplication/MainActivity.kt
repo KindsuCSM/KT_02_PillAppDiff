@@ -17,7 +17,7 @@ import com.kindsu.myapplication.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var lstPastillas: MutableMap<String, List<String>>
+    private lateinit var lstPastillas: MutableMap<String, MutableList<String>>
     private lateinit var lstHoras: MutableMap<String, String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,14 +36,15 @@ class MainActivity : AppCompatActivity() {
             "10/11/2024" to mutableListOf("Omeprazol", "Trajenta", "Apixaban"),
             "11/11/2024" to mutableListOf("Bisoprolol", "Loxartan", "Alodipino")
         )
-
         lstHoras = mutableMapOf(
             "14/11/2024" to "13:50",
             "10/11/2024" to "14:50",
             "11/11/2024" to "16:50",
         )
+
         showCurrentDate() // Mostrar la fecha actual y las pastillas al inicio
         initListeners()
+
     }
 
     //Recibo un parametro tipo calendario y lo convierto a string recogiendo sus valores dia, mes y año
@@ -53,7 +54,6 @@ class MainActivity : AppCompatActivity() {
         val year = calendar.get(Calendar.YEAR)
         return "$day/$month/$year"
     }
-
 
     private fun showCurrentDate() {                                                 // Mostrar la fecha actual en el TextView al iniciar la actividad
         val calendar = Calendar.getInstance()
@@ -97,6 +97,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun navigateToIntroducirPasti(){
         val intent = Intent(this, IntroducirPasti::class.java)
+        intent.putExtra("mapaPastis", HashMap(lstPastillas))
         startActivity(intent)
     }
 

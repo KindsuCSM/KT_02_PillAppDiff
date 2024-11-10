@@ -147,9 +147,7 @@
                 android:fontFamily="@font/font_sour_gummy"
                 android:layout_marginHorizontal="20dp"
                 android:textColor="@color/txtColorOscuro"
-                android:clickable="false"
-                android:focusable="false"/>
-
+                android:inputType="text"/>
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
