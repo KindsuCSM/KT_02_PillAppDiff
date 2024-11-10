@@ -6,7 +6,9 @@ import android.graphics.Typeface
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.widget.CheckBox
-import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -17,13 +19,13 @@ import com.kindsu.myapplication.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var lstPastillas: MutableMap<String, MutableList<String>>
+    private var lstPastillas = Pastillas()
     private lateinit var lstHoras: MutableMap<String, String>
+    private lateinit var launchIntroducirPasti: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        enableEdgeToEdge()
         setContentView(binding.root)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -31,23 +33,38 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        lstPastillas = mutableMapOf(
-            "14/11/2024" to mutableListOf("Tirodrill", "Furosemida", "Ferbisol"),
-            "10/11/2024" to mutableListOf("Omeprazol", "Trajenta", "Apixaban"),
-            "11/11/2024" to mutableListOf("Bisoprolol", "Loxartan", "Alodipino")
+
+        launchIntroducirPasti = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult(),
+            this::handleIntroducirPastiResult // Usa un método de referencia
         )
+
         lstHoras = mutableMapOf(
             "14/11/2024" to "13:50",
             "10/11/2024" to "14:50",
             "11/11/2024" to "16:50",
         )
 
-        showCurrentDate() // Mostrar la fecha actual y las pastillas al inicio
+        showCurrentDate()
         initListeners()
-
     }
 
-    //Recibo un parametro tipo calendario y lo convierto a string recogiendo sus valores dia, mes y año
+    private fun handleIntroducirPastiResult(result: ActivityResult) {
+        if (result.resultCode == RESULT_OK) {
+            // Obtenemos los datos de la pastilla y la fecha desde el Intent de resultado
+            val fecha = result.data?.getStringExtra("fecha")
+            val nombrePasti = result.data?.getStringExtra("nombrePasti")
+
+            if (fecha != null && nombrePasti != null) {
+                // Añadimos la nueva pastilla a la lista usando la instancia de `lstPastillas`
+                lstPastillas.addNuevaPastilla(fecha, nombrePasti)
+            }
+
+            // Llamamos a `showCurrentDate()` para actualizar la visualización
+            showCurrentDate()
+        }
+    }
+
     private fun formatDate(calendar: Calendar): String {
         val day = calendar.get(Calendar.DAY_OF_MONTH)
         val month = calendar.get(Calendar.MONTH) + 1
@@ -55,54 +72,54 @@ class MainActivity : AppCompatActivity() {
         return "$day/$month/$year"
     }
 
-    private fun showCurrentDate() {                                                 // Mostrar la fecha actual en el TextView al iniciar la actividad
+    private fun showCurrentDate() {
         val calendar = Calendar.getInstance()
         val currentDate = formatDate(calendar)
 
-        addCheckBox(currentDate)                                                    // Mostrar la lista de pastillas para la fecha actual
-        binding.tvFecha.text = currentDate                                          // Mostrar la fecha actual
-        binding.cvCalendar.setOnDateChangeListener{ _, year, month, dayOfMonth ->   // Configurar el listener para cuando el usuario seleccione una fecha
-            val selectedDate = Calendar.getInstance().apply {                       // Recogemos la fecha que indica el usuario
-                set(year, month, dayOfMonth) }
-            val formattedDate = formatDate(selectedDate)                            //Formatear la fecha que hemos recogido de Calendar a string
-            binding.tvFecha.text = formattedDate                                    // Actualizar la fecha en el TextView
-            addCheckBox(formattedDate)                                              // Mostrar las pastillas asociadas a la fecha seleccionada
+        addCheckBox(currentDate)
+        binding.tvFecha.text = currentDate
+        binding.cvCalendar.setOnDateChangeListener { _, year, month, dayOfMonth ->
+            val selectedDate = Calendar.getInstance().apply {
+                set(year, month, dayOfMonth)
+            }
+            val formattedDate = formatDate(selectedDate)
+            binding.tvFecha.text = formattedDate
+            addCheckBox(formattedDate)
         }
     }
 
     private fun addCheckBox(date: String) {
-        val txtColor = ContextCompat.getColor(this, R.color.txtColorOscuro)         //Recogemos el color de la letra en una variable
-        val fondoTxt = ResourcesCompat.getFont(this, R.font.font_sour_gummy)        //Recogemos el estilo de la letra en una variable
-        val pastis = lstPastillas[date] ?: listOf("No tienes que tomar pastillas")          //la clave fecha no existe en el diccionario, mostraremos un checkbox con el texto
+        val txtColor = ContextCompat.getColor(this, R.color.txtColorOscuro)
+        val fondoTxt = ResourcesCompat.getFont(this, R.font.font_sour_gummy)
+        val pastis = lstPastillas.lstPastillas[date] ?: listOf("No tienes que tomar pastillas")
 
-        binding.layoutCheckBox.removeAllViews()                                             // Limpiar cualquier CheckBox previo en el contenedor
+        binding.layoutCheckBox.removeAllViews()
 
-        // Añadir los CheckBox al layout
         for (pasti in pastis) {
-            val checkbox = CheckBox(this)
-            checkbox.text = pasti
-            checkbox.textSize = 16f
-            checkbox.setTextColor(txtColor)
-            checkbox.setTypeface(fondoTxt, Typeface.BOLD)
-            checkbox.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                checkbox. paintFlags =  Paint.STRIKE_THRU_TEXT_FLAG
-            } else {
-                checkbox. paintFlags = checkbox.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+            val checkbox = CheckBox(this).apply {
+                text = pasti
+                textSize = 16f
+                setTextColor(txtColor)
+                setTypeface(fondoTxt, Typeface.BOLD)
+                setOnCheckedChangeListener { _, isChecked ->
+                    paintFlags = if (isChecked) {
+                        paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                    } else {
+                        paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+                    }
+                }
             }
-        }
             binding.layoutCheckBox.addView(checkbox)
         }
     }
 
-    private fun navigateToIntroducirPasti(){
+    private fun navigateToIntroducirPasti() {
         val intent = Intent(this, IntroducirPasti::class.java)
-        intent.putExtra("mapaPastis", HashMap(lstPastillas))
-        startActivity(intent)
+        launchIntroducirPasti.launch(intent)
     }
 
-    private fun initListeners(){
-        binding.btnAniadirPastilla.setOnClickListener(){
+    private fun initListeners() {
+        binding.btnAniadirPastilla.setOnClickListener {
             navigateToIntroducirPasti()
         }
     }

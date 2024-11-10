@@ -1,5 +1,6 @@
 package com.kindsu.myapplication
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -9,9 +10,7 @@ import com.kindsu.myapplication.databinding.ActivityIntroducirPastiBinding
 
 class IntroducirPasti : AppCompatActivity() {
     private lateinit var binding: ActivityIntroducirPastiBinding
-    private lateinit var lstPastillas: MutableMap<String, MutableList<String>>
-
-
+    private var lstPastillas = Pastillas()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,27 +52,17 @@ class IntroducirPasti : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
         binding.btnAceptar.setOnClickListener(){
-            addNuevaPastilla()
-
-            onBackPressedDispatcher.onBackPressed()
+            val intent = Intent()
+            intent.putExtra("fecha", binding.etFecha.text.toString())
+            intent.putExtra("nombrePasti", binding.etNombre.text.toString())
+            setResult(RESULT_OK, intent)
+            finish() // Termina la actividad y regresa a MainActivity
         }
         binding.etFecha.setOnClickListener(){
             showDatePickerDialog()
         }
         binding.etHora.setOnClickListener(){
             showTimePickerDialog()
-        }
-    }
-    private fun addNuevaPastilla(){
-        val passedMap = intent.getSerializableExtra("lstPastillas") as HashMap<String, MutableList<String>>
-        if(passedMap != null){
-            lstPastillas = passedMap
-
-            if(lstPastillas.containsKey(binding.etFecha.text.toString())){
-                lstPastillas[binding.etFecha.text.toString()]?.add(binding.etNombre.text.toString() ?: "")
-            }else {
-                lstPastillas[binding.etFecha.text.toString() ?: ""] = mutableListOf(binding.etFecha.text.toString() ?: "")
-            }
         }
     }
 }
